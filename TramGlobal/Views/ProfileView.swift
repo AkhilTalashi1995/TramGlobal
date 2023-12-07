@@ -29,6 +29,8 @@ struct ProfileView: View {
     @State private var isPhotoPickerPresented = false
     @State private var showingAlert = false
     @State private var alertMessage = ""
+    @State private var isProfileSet = false
+    
     @State var date = Date()
     
     let textFieldWidth = 300.0
@@ -40,9 +42,9 @@ struct ProfileView: View {
                 HStack {
                                    Spacer()
                                    userProfileView()
-                                       .onTapGesture {
-                                           isPhotoPickerPresented = true
-                                       }
+//                                       .onTapGesture {
+//                                           isPhotoPickerPresented = true
+//                                       }
                                    Spacer()
                                }
                 
@@ -145,6 +147,8 @@ struct ProfileView: View {
             password = userDefault.value(forKey: "admin_password") as! String
             image =  userProfile(fileName: "\(timeStamp).jpg")
             
+            isProfileSet = doesImageHasData()
+            
         }
 //        .navigationTitle("Profile")
         
@@ -156,6 +160,13 @@ struct ProfileView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func doesImageHasData() -> Bool {
+        guard self.image.pngData() != nil else {
+            return false
+        }
+        return true
     }
     
     func saveButton() -> some View {
@@ -239,6 +250,15 @@ struct ProfileView: View {
                         }
                     }
                 )   
+                .onTapGesture {
+                    if isProfileSet {
+                        image = UIImage()
+                        removeUserProfile(fileName: "\(self.timeStamp).jpg")
+                        isProfileSet = false
+                    } else {
+                        isPhotoPickerPresented = true
+                    }
+                }
         }
         
     }

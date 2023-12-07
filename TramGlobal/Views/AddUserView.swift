@@ -25,6 +25,7 @@ struct AddUserView: View {
     @State var date = Date()
     @State private var showingAlert = false
     @State private var alertMessage = ""
+    @State private var isProfileSet = false
 
     let textFieldWidth = 300.0
     var selectedUser: UserModel!
@@ -38,9 +39,11 @@ struct AddUserView: View {
                 HStack {
                     Spacer()
                     userProfileView()
-                        .onTapGesture {
-                            isPhotoPickerPresented = true
-                        }
+//                        .onTapGesture {
+////                            if isEditMode && isProfileSet {
+//                                isPhotoPickerPresented = true
+////                            }
+//                        }
                     Spacer()
                 }
                     
@@ -118,6 +121,8 @@ struct AddUserView: View {
                 let newDate = dateFormatter.date(from:isoDate)!
                 date = newDate
             }
+            
+            isProfileSet = doesImageHasData()
         }
         
         
@@ -131,6 +136,13 @@ struct AddUserView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func doesImageHasData() -> Bool {
+        guard self.image.pngData() != nil else {
+            return false
+        }
+        return true
     }
     
     func submitButton() -> some View {
@@ -214,7 +226,7 @@ struct AddUserView: View {
                                     // Action for the plus button
                                     // Add your logic here
                                 }) {
-                                    Image(systemName: "plus")
+                                    Image(systemName: isProfileSet ? "minus" : "plus")
                                         .frame(width: 30, height: 30)
                                         .foregroundColor(Color.white)
                                 }
@@ -223,6 +235,15 @@ struct AddUserView: View {
                         }
                     }
                 )
+                .onTapGesture {
+                    if isProfileSet {
+                        image = UIImage()
+                        removeUserProfile(fileName: "\(self.timeStamp).jpg")
+                        isProfileSet = false
+                    } else {
+                        isPhotoPickerPresented = true
+                    }
+                }
         }
         
     }

@@ -28,6 +28,24 @@ func saveUserProfile(fileName: String, image: UIImage) {
     }
 }
 
+// Remove image
+func removeUserProfile(fileName: String) {
+    do {
+        // get the documents directory url
+        let documentsDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        print("documentsDirectory:", documentsDirectory.path)
+        // choose a name for your image
+        // create the destination file url to save your image
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        
+        try  FileManager.default.removeItem(at: fileURL)
+        print("file removed")
+        
+    } catch {
+        print("error:", error)
+    }
+}
+
 
 // Validation
 func textFieldValidatorFullName(_ testStr: String) -> Bool {
