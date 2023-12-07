@@ -15,8 +15,6 @@ Go to the project directory and run
 * Open "Project" directory
 * Open file "TramGlobal.xcworkspace" in Xcode
 * Run using command - "Command (or Cmd) ⌘ + R"
-  
-![Screenshot 2023-12-07 at 4 33 04 AM](https://github.com/AkhilTalashi1995/TramGlobal/assets/114716350/363e8f43-0462-4632-af85-280098f424d2)
 
 ### Project short summary ###
 
